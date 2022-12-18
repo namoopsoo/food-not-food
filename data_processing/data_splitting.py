@@ -13,6 +13,7 @@ data/
         not_food/
             ...
 """
+import argparse
 import pathlib
 import random
 import os
@@ -20,9 +21,18 @@ import os
 from shutil import copy2, move
 
 # Get all food image paths
-targ_dir = "../data/"
-food_dir = "../data/food"
-not_food_dir = "../data/not_food"
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-t",
+    "--targ_dir",
+    help="target directory where  images exist",
+)
+args = parser.parse_args()
+
+targ_dir = args.targ_dir
+
+food_dir = pathlib.Path(targ_dir) / "food"
+not_food_dir = pathlib.Path(targ_dir) / "not_food"
 food_dir_train, food_dir_test = os.path.join(targ_dir, "train", "food"), os.path.join(
     targ_dir, "test", "food"
 )
@@ -31,8 +41,8 @@ not_food_dir_train, not_food_dir_test = os.path.join(
 ), os.path.join(targ_dir, "test", "not_food")
 
 
-food_image_filepaths = list(pathlib.Path(food_dir).glob("*.jpg"))
-not_food_image_filepaths = list(pathlib.Path(not_food_dir).glob("*.jpg"))
+food_image_filepaths = list(food_dir.glob("*.jpg"))
+not_food_image_filepaths = list(not_food_dir.glob("*.jpg"))
 
 assert (
     len(food_image_filepaths) > 0

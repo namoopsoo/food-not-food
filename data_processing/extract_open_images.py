@@ -40,7 +40,7 @@ class_label_dict = dict(zip(classes_df["id"], classes_df["class"]))
 
 # Read in food names list (from NLTK)
 print(f"[INFO] Getting list of foods...")
-with open("../data/food_list.txt", "r") as f:
+with open("data/food_list.txt", "r") as f:
     food_list = f.read().splitlines()
 
 # Filter Open Images class list for food classes

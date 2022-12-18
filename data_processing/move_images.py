@@ -1,6 +1,7 @@
 """
 Moves images from extracted image files to ../data/food and ../data/not_food
 """
+import argparse
 import os
 import shutil
 import pathlib
@@ -13,7 +14,16 @@ def move_images(source, destination):
         shutil.move(src=os.path.join(image_path), dst=destination)
 
 
-targ_dir = "../data"
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-t",
+    "--targ_dir",
+    help="target directory where to look for downloaded images",
+)
+args = parser.parse_args()
+
+targ_dir = args.targ_dir
+
 food_image_dir = os.path.join(targ_dir, "food")
 not_food_image_dir = os.path.join(targ_dir, "not_food")
 

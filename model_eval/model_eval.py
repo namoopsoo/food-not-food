@@ -38,10 +38,6 @@ print(f"[INFO] Loading model from '{model_path}'...")
 interpreter = tf.lite.Interpreter(model_path=model_path)
 interpreter.allocate_tensors()
 
-input_index = interpreter.get_input_details()[0]["index"]
-output_index = interpreter.get_output_details()[0]["index"]
-
-print(input_index, output_index)
 
 # Load and pred on image
 def load_image(image_path, img_shape=224):
@@ -62,14 +58,27 @@ def load_image(image_path, img_shape=224):
     return img
 
 
-img = load_image(image_path=image_path)
 
-# Make prediction - source: https://stackoverflow.com/a/68132736/7900723
-print(f"[INFO] Making prediction on image...")
-interpreter.set_tensor(input_index, img)
-interpreter.invoke()
-output = interpreter.get_tensor(output_index)
-class_names = {0: "food", 1: "not_food"}
-print(f"[INFO] Model prediction: {class_names[output.argmax()]}")
-print(f"[INFO] Model outputs: {output}")
+def handle_eval(interpreter, image_path):
 
+    input_index = interpreter.get_input_details()[0]["index"]
+    output_index = interpreter.get_output_details()[0]["index"]
+
+    print(input_index, output_index)
+        
+    #
+    base_dir = Path(image_path).parent
+    print("base_dir of", image_path, base_dir)
+    # print(os.listdir())
+
+    img = load_image(image_path=image_path)
+
+    # Make prediction - source: https://stackoverflow.com/a/68132736/7900723
+    print(f"[INFO] Making prediction on image...")
+    interpreter.set_tensor(input_index, img)
+    interpreter.invoke()
+    output = interpreter.get_tensor(output_index)
+    class_names = {0: "food", 1: "not_food"}
+    print(f"[INFO] Model prediction: {class_names[output.argmax()]}")
+    print(f"[INFO] Model outputs: {output}")
+    # return ...

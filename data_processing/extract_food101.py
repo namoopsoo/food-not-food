@@ -34,10 +34,12 @@ parser.add_argument(
     default=100,
     help="number of images to randomly sample from Food101",
 )
+parser.add_argument("-v", "--verbose", action="store_true", default=False)
 
 args = parser.parse_args()
 targ_dir = args.targ_dir
 dest_dir = args.dest_dir
+verbose = args.verbose
 NUM_SAMPLES = int(args.num_samples)
 
 assert os.path.exists(
@@ -59,16 +61,18 @@ for image_path in random_image_path_sample:
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder, exist_ok=True)
     destination_path = pathlib.Path(destination_folder).joinpath(image_path.name)
-    print(f"[INFO] Copying {image_path} to {destination_path}...")
+    if verbose:
+        print(f"[INFO] Copying {image_path} to {destination_path}...")
     copy2(image_path, destination_path)
 
 # Print out images extracted
 for dir, subdirs, files in os.walk(args.dest_dir):
     for subdir in subdirs:
         subdir_path = os.path.join(dir, subdir)
-        print(
-            f"[INFO] Total {subdir} images in {subdir_path}: {len(os.listdir(subdir_path))}"
-        )
+        if verbose:
+            print(
+                f"[INFO] Total {subdir} images in {subdir_path}: {len(os.listdir(subdir_path))}"
+            )
 
 # TODO: Remove old image folders
 
