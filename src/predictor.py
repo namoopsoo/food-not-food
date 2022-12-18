@@ -4,7 +4,9 @@ import sys
 import signal
 import flask
 from io import StringIO
+from pathlib import Path
 from functools import reduce
+from tqdm import tqdm
 
 import model_eval as me
 
@@ -25,7 +27,7 @@ def ping():
     # TODO run some health checks.
     status = 200
     image_path = str(Path(image_home).glob("*.jpg").__next__())
-    output = model.handle_eval(model, image_path)
+    output = me.handle_eval(model, image_path)
     print(f"eval of {image_path} is {output}")
     return flask.Response(response='\n', status=status, mimetype='application/json')
 
@@ -44,15 +46,18 @@ def transformation():
         input_request = flask.request.data.decode('utf-8')
         print("input_request", input_request)
         rows = json.loads(input_request)
-        print("We got ", len(rows), "inputs")
+        print("We got ", len(rows), "inputs",)
+        image_paths = [Path(image_home) / x for x in rows]
+        print("image paths", image_paths)
 
         # TODO validate input
 
-        results = [model.handle_eval(model, x) for x in rows]
+        results = [me.handle_eval(model, x) for x in tqdm(image_paths)]
+        print("will return results", results)
 
         mimetype = 'application/json'
 
-        result = json.dumps({'result': "ok cool"})
+        result = json.dumps({'result': results})
         return flask.Response(response=result, status=200, mimetype=mimetype)
 
 

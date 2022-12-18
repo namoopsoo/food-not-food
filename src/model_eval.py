@@ -42,6 +42,7 @@ def load_image(image_path, img_shape=224):
 
 
 def handle_eval(interpreter, image_path):
+    assert image_path.exists() and image_path.is_file()
 
     input_index = interpreter.get_input_details()[0]["index"]
     output_index = interpreter.get_output_details()[0]["index"]
@@ -49,11 +50,11 @@ def handle_eval(interpreter, image_path):
     print(input_index, output_index)
         
     #
-    base_dir = Path(image_path).parent
+    base_dir = image_path.parent
     print("base_dir of", image_path, base_dir)
     # print(os.listdir())
 
-    img = load_image(image_path=image_path)
+    img = load_image(image_path=str(image_path))
 
     # Make prediction - source: https://stackoverflow.com/a/68132736/7900723
     print(f"[INFO] Making prediction on image...")
@@ -63,7 +64,9 @@ def handle_eval(interpreter, image_path):
     class_names = {0: "food", 1: "not_food"}
     print(f"[INFO] Model prediction: {class_names[output.argmax()]}")
     print(f"[INFO] Model outputs: {output}")
-    return {"prediction": {class_names[output.argmax()]}, "raw": output}
+    return {"prediction": class_names[output.argmax()], 
+            "raw": output,
+            "image_path": str(image_path)}
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ RUN pip install tflite-model-maker==0.4.2
 RUN pip install ipython
 
 RUN pip install flask gevent gunicorn jupyter
+RUN pip install tqdm
 
 
 RUN mkdir /root/data
