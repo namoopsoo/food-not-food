@@ -65,7 +65,7 @@ def handle_eval(interpreter, image_path):
     print(f"[INFO] Model prediction: {class_names[output.argmax()]}")
     print(f"[INFO] Model outputs: {output}")
     return {"prediction": class_names[output.argmax()], 
-            "raw": output,
+            "raw": output.tolist(),
             "image_path": str(image_path)}
 
 

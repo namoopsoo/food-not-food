@@ -1,4 +1,15 @@
-# Food Not Food dot app (🍔🚫🍔)
+# Dockered version of mrdbourke's  Food Not Food dot app (🍔🚫🍔)
+
+NOTE!! This is a fork of https://github.com/mrdbourke/food-not-food !!
+
+In this repo, the goal was to see if I can get mrdbourke's setup working on my own photos, because I got a bit tired of manually separating out all of my food images from my photo album, haha.
+
+And in the process of integrating this with my other photo management scripts, I also learned a bit about TensorFlow Lite and also decided to package up this into a Docker image as I found that was the only way I was able to get this tensorflow lite setup working on my Macos Monterey. 
+
+And the docker implementation helped me too, because I was not able to figure out a way to use a tensorflow lite model to run predictions on a batch of images, but I did see that although it was taking 7 seconds per photo, running this behind a wsgi/flask server on docker, this was now taking 1 second per photo.
+
+# (Some original content from mrdbourke's README... )
+
 
 Code for building a machine Learning powered app to decide whether a photo is of food or not.
 
