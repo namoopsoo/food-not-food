@@ -26,7 +26,8 @@ def ping():
     it healthy if we can load the model successfully."""
     # TODO run some health checks.
     status = 200
-    image_path = str(Path(image_home).glob("*.jpg").__next__())
+    image_path = Path(image_home).glob("*/*.jpg").__next__()
+    print("DEBUG, ping, ", image_path)
     output = me.handle_eval(model, image_path)
     print(f"eval of {image_path} is {output}")
     return flask.Response(response='\n', status=status, mimetype='application/json')
