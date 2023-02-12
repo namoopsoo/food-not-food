@@ -17,6 +17,21 @@ And the docker implementation helped me too, because I was not able to figure ou
 ### TODO 
 I have been meaning to synthesize what I needed to do slightly differently from when running `mrdbourke` 's raw notes. They are good notes , but I recall having to fill in some gaps from time to time.
 
+
+Also, I learned quite a bit about tensorflow lite in the process, but I have still to this day not been able to figure out how load a tensorflow lite model (`foo.tflite` ) and be able to batch-predict as one can do if you build the model from scratch. This is one of the main reasons I ended up with this Docker image, because I wanted to run this model on hundreds of photos at a time and I did not want this to take hours. 
+
+I had looked into turning the tensorflow lite model to a regular model, but I also was not able to figure out how to do this. I suspect you can only  turn a regular tensorflow model to a lite version, but that this operation is irreversible. 
+
+Also, at one point I discovered `mrdbourke`  's original `load_image` func pre-processes photos to a square shape,  with 
+
+```python
+img = tf.image.resize(img, [img_shape, img_shape])
+```
+
+killing the original scale, and yet this model is still pretty good !
+But it does not matter if the photo is a landscape photo or a tall photo say and I was wondering if some kind of cropping or adding empty space can improve the performance. Leaving that as a thought here for now.
+
+
 # (Some original content from mrdbourke's README... )
 
 
