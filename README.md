@@ -4,9 +4,18 @@ NOTE!! This is a fork of https://github.com/mrdbourke/food-not-food !!
 
 In this repo, the goal was to see if I can get mrdbourke's setup working on my own photos, because I got a bit tired of manually separating out all of my food images from my photo album, haha.
 
-And in the process of integrating this with my other photo management scripts, I also learned a bit about TensorFlow Lite and also decided to package up this into a Docker image as I found that was the only way I was able to get this tensorflow lite setup working on my Macos Monterey. 
+And in the process of integrating this with my other photo management scripts, I also learned a bit about TensorFlow Lite and decided to package this up into a Docker image as I found that was the only way I was able to get this tensorflow lite setup working on my Macos Monterey. 
 
 And the docker implementation helped me too, because I was not able to figure out a way to use a tensorflow lite model to run predictions on a batch of images, but I did see that although it was taking 7 seconds per photo, running this behind a wsgi/flask server on docker, this was now taking 1 second per photo.
+
+
+### Main additions are
+* `Dockerfile` , `nginx.conf`, `wsgi.py` and other boilerplate for serving the tensorflow lite model.
+* The `predictor.py` can take a list of file paths so we end up saving around 6 seconds per photo when you batch the predictions.
+
+
+### TODO 
+I have been meaning to synthesize what I needed to do slightly differently from when running `mrdbourke` 's raw notes. They are good notes , but I recall having to fill in some gaps from time to time.
 
 # (Some original content from mrdbourke's README... )
 
